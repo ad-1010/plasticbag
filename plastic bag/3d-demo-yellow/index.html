@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>3D</title>
+    <style>
+    * {
+        margin: 0;
+        padding: 0;
+    }
+    body {
+        position: relative;
+        width: 100vw;
+        height: 100vh;
+    }
+    #container {
+        position: relative;
+        width:100vw;
+        height:100vw;
+    }
+    #camera {
+        position: absolute;
+        width:100%;
+        height:100%;
+        overflow: hidden;
+        background: #666;
+        perspective: 25vw;
+        transform-style: preserve-3d;
+        -webkit-transform-style: preserve-3d;
+    }
+
+    .cube {
+        position: absolute;
+        width:100%;
+        height:100%;
+        transform-style: preserve-3d;
+        transform-origin: 50% 50% 0;
+        transform: rotateX(0deg) rotateY(0deg) rotateZ(0deg);
+        -webkit-transform-style: preserve-3d;
+        -webkit-transform-origin: 50% 50% 0;
+        -webkit-transform: rotateX(0deg) rotateY(0deg) rotateZ(0deg);
+    }
+    .pics {
+        position: absolute;
+        width: 50vw;
+        height: 50vw;
+        left: 25vw;
+        top: 25vw;
+        background-size: cover;
+    }
+    .p-font{
+        /*background: url("http://static.vince.xin/UYCFVGBHNJMK.jpg") no-repeat;*/
+        background: url("./font.png") no-repeat;
+        background-size: cover;
+        /*background-color: red;*/
+        transform: translateZ(-25vw);
+        -webkit-transform: translateZ(-25vw);
+    }
+    .p-back{
+        /*background: url("http://static.vince.xin/FRTGYHUJKBHNJ.jpg") no-repeat;*/
+        background: url("./back.png") no-repeat;
+        background-size: cover;
+        /*background-color:brown;*/
+        transform: translateZ(25vw) rotateY(180deg);
+        -webkit-transform: translateZ(25vw) rotateY(180deg);
+    }
+    .p-left{
+        /*background: url("http://static.vince.xin/YGVGBHJNKM.jpg") no-repeat;*/
+        background: url("./left.png") no-repeat;
+        background-size: cover;
+        /*background-color:orange;*/
+        transform: rotateY(90deg) translateZ(-25vw);
+        -webkit-transform: rotateY(90deg) translateZ(-25vw);
+    }
+    .p-right{
+        /*background: url("http://static.vince.xin/YJMEDFGHJKIUH.jpg") no-repeat;*/
+        background: url("./right.png") no-repeat;
+        background-size: cover;
+        /*background-color:blue;*/
+        transform: rotateY(-90deg) translateZ(-25vw);
+        -webkit-transform: rotateY(-90deg) translateZ(-25vw);
+    }
+    .p-top{
+        /*background:  url("http://static.vince.xin/YTGHJKLSDF.jpg") no-repeat;*/
+        background: url("./top.png") no-repeat;
+        background-size: cover;
+        /*background-color:pink;*/
+        transform: rotateX(-90deg) translateZ(-25vw);
+        -webkit-transform: rotateX(-90deg) translateZ(-25vw);
+    }
+    .p-bottom{
+        /*background: url("http://static.vince.xin/YOKSDCVBNM.jpg") no-repeat;*/
+        background: url("./bottom.png") no-repeat;
+        background-size: cover;
+        /*background-color:green;*/
+        transform: rotateX(90deg) translateZ(-25vw);
+        -webkit-transform: rotateX(90deg) translateZ(-25vw);
+    }
+
+    #pocket {
+        position: absolute;
+        width:100%;
+        height:100%;
+        z-index: 100;
+        background: url("./pocket.png") no-repeat;  
+        background-size: 100% 100%;
+    }
+
+    #mark {
+        position: absolute;
+        width:100%;
+        height:100%;
+        z-index: 1000;
+        background: url("./mark.png") no-repeat;  
+        background-size: 100% 100%;
+    }
+    </style>
+    <script src="http://hammerjs.github.io/dist/hammer.min.js"></script>
+    <script src="https://animejs.com/lib/anime.min.js"></script>
+    <script type="text/javascript">
+        window.onload = function() {
+            var body = document.body;
+            var hammertime = new Hammer(body);
+            var x = 0, y = 0;
+            hammertime.on('panmove', function(ev) {
+                var diffX = ev.deltaY / 100;
+                var diffY = -ev.deltaX / 100;
+                if (diffX > 1) diffX = 1;
+                if (diffX < -1) diffX = -1;
+                if (diffY > 1) diffY = 1;
+                if (diffY < -1) diffY = -1;
+                x += diffX;
+                y += diffY;
+                animation();
+            });
+            function animation() {
+                anime({
+                  targets: '.cube',
+                  // duration: 2000,
+                  rotateX: x,
+                  rotateY: y,
+                  // easing: 'easeInOutSine'
+                });
+            }
+        };
+    </script>
+</head>
+<body>
+<!-- https://codepen.io/ruantao1989/pen/GjvRQO -->
+<div id="container">
+    <div id="camera">
+        <div class="cube">
+            <div class="p-back pics"></div>
+            <div class="p-left pics"></div>
+            <div class="p-font pics"></div>
+            <div class="p-right pics"></div>
+            <div class="p-bottom pics"></div>
+            <div class="p-top pics"></div>
+        </div>
+    </div>
+    <!-- <div id="pocket"></div>
+    <div id="mark"></div> -->
+</div>
+</body>
+</html>
