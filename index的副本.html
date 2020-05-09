@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>3D</title>
+    <style>
+    * {
+        margin: 0;
+        padding: 0;
+    }
+    body {
+        position: relative;
+        width: 100vw;
+        height: 100vh;
+        overflow: hidden;
+    }
+    #container {
+        position: relative;
+        width: 46.21vh; /* 2409/5213 */
+        height: 100vh;
+        margin: 0 auto;
+    }
+    #camera {
+        position: absolute;
+        top: 33.5vh; /* 1750/5213 */
+        left: 5.3vh; /* 275/5213 */
+        width: 36vh; /* 1850/5213 */
+        height: 36vh;
+        overflow: hidden;
+        background: #666;
+        perspective: 9vh;
+        transform-style: preserve-3d;
+        -webkit-transform-style: preserve-3d;
+    }
+
+    .cube {
+        position: absolute;
+        width:100%;
+        height:100%;
+        transform-style: preserve-3d;
+        transform-origin: 50% 50% 0;
+        transform: rotateX(0deg) rotateY(0deg) rotateZ(0deg);
+        -webkit-transform-style: preserve-3d;
+        -webkit-transform-origin: 50% 50% 0;
+        -webkit-transform: rotateX(0deg) rotateY(0deg) rotateZ(0deg);
+    }
+    .pics {
+        position: absolute;
+        width: 18vh;
+        height: 18vh;
+        left: 9vh;
+        top: 9vh;
+        background-size: cover;
+    }
+    .p-font{
+        /*background: url("http://static.vince.xin/UYCFVGBHNJMK.jpg") no-repeat;*/
+        background-size: cover;
+        background-repeat: no-repeat;
+        transform: translateZ(-9vh);
+        -webkit-transform: translateZ(-9vh);
+    }
+    .p-back{
+        /*background: url("http://static.vince.xin/FRTGYHUJKBHNJ.jpg") no-repeat;*/
+        background-size: cover;
+        background-repeat: no-repeat;
+        transform: translateZ(9vh) rotateY(180deg);
+        -webkit-transform: translateZ(9vh) rotateY(180deg);
+    }
+    .p-left{
+        /*background: url("http://static.vince.xin/YGVGBHJNKM.jpg") no-repeat;*/
+        background-size: cover;
+        background-repeat: no-repeat;
+        transform: rotateY(90deg) translateZ(-9vh);
+        -webkit-transform: rotateY(90deg) translateZ(-9vh);
+    }
+    .p-right{
+        /*background: url("http://static.vince.xin/YJMEDFGHJKIUH.jpg") no-repeat;*/
+        background-size: cover;
+        background-repeat: no-repeat;
+        transform: rotateY(-90deg) translateZ(-9vh);
+        -webkit-transform: rotateY(-90deg) translateZ(-9vh);
+    }
+    .p-top{
+        /*background:  url("http://static.vince.xin/YTGHJKLSDF.jpg") no-repeat;*/
+        background-size: cover;
+        background-repeat: no-repeat;
+        transform: rotateX(-90deg) translateZ(-9vh);
+        -webkit-transform: rotateX(-90deg) translateZ(-9vh);
+    }
+    .p-bottom{
+        /*background: url("http://static.vince.xin/YOKSDCVBNM.jpg") no-repeat;*/
+        background-size: cover;
+        background-repeat: no-repeat;
+        transform: rotateX(90deg) translateZ(-9vh);
+        -webkit-transform: rotateX(90deg) translateZ(-9vh);
+    }
+
+    #camera.yellow .p-font { background-image: url("./yellow/font.png"); }
+    #camera.yellow .p-back { background-image: url("./yellow/back.png"); }
+    #camera.yellow .p-left { background-image: url("./yellow/left.png"); }
+    #camera.yellow .p-right { background-image: url("./yellow/right.png"); }
+    #camera.yellow .p-top { background-image: url("./yellow/top.png"); }
+    #camera.yellow .p-bottom { background-image: url("./yellow/bottom.png"); }
+
+    #camera.black .p-font { background-image: url("./black/font.png"); }
+    #camera.black .p-back { background-image: url("./black/back.png"); }
+    #camera.black .p-left { background-image: url("./black/left.png"); }
+    #camera.black .p-right { background-image: url("./black/right.png"); }
+    #camera.black .p-top { background-image: url("./black/top.png"); }
+    #camera.black .p-bottom { background-image: url("./black/bottom.png"); }
+
+    #camera.green .p-font { background-image: url("./green/font.png"); }
+    #camera.green .p-back { background-image: url("./green/back.png"); }
+    #camera.green .p-left { background-image: url("./green/left.png"); }
+    #camera.green .p-right { background-image: url("./green/right.png"); }
+    #camera.green .p-top { background-image: url("./green/top.png"); }
+    #camera.green .p-bottom { background-image: url("./green/bottom.png"); }
+
+    #camera.pink .p-font { background-image: url("./pink/font.png"); }
+    #camera.pink .p-back { background-image: url("./pink/back.png"); }
+    #camera.pink .p-left { background-image: url("./pink/left.png"); }
+    #camera.pink .p-right { background-image: url("./pink/right.png"); }
+    #camera.pink .p-top { background-image: url("./pink/top.png"); }
+    #camera.pink .p-bottom { background-image: url("./pink/bottom.png"); }
+
+    #pocket {
+        position: absolute;
+        top: 33.5vh; /* 1750/5213 */
+        left: 5.3vh; /* 275/5213 */
+        width: 36vh; /* 1850/5213 */
+        height: 36vh;
+        background-size: cover;
+        background-repeat: no-repeat;
+    }
+
+    #pocket.yellow { background-image: url("./yellow/pocket.png"); }
+    #pocket.black { background-image: url("./black/pocket.png"); }
+    #pocket.green { background-image: url("./green/pocket.png"); }
+    #pocket.pink { background-image: url("./pink/pocket.png"); }
+
+    #mark {
+        position: absolute;
+        width:100%;
+        height:100%;
+        z-index: 1000;
+        background: url("./mark.png") no-repeat;  
+        background-size: 100% 100%;
+    }
+    .btns {
+        position: absolute;
+        top: 21.1vh; /* 1100/5213 */
+        left: 50%;
+        width: 28.7vh; /* 1500/5213 */
+        transform: translateX(-50%);
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
+    .switch-btn {
+        width: 5.5vh;
+        height: 5.5vh; /* 288/5213 */
+        z-index: 1001;
+        background-size: 100% 100%;
+        cursor: pointer;
+    }
+    .switch-btn.yellow {
+        background-image: url("./yellow/button.png");
+        background-repeat: no-repeat;
+    }
+    .switch-btn.black {
+        background-image: url("./black/button.png");
+        background-repeat: no-repeat;
+    }
+    .switch-btn.green {
+        background-image: url("./green/button.png");
+        background-repeat: no-repeat;
+    }
+    .switch-btn.pink {
+        background-image: url("./pink/button.png");
+        background-repeat: no-repeat;
+    }
+    /* mobile */
+    @media screen and (max-width: 750px) {
+        #container {
+            width: 100vw;
+            height: 216.4vw; /* 5213/2409 */
+        }
+        #camera {
+            top: 62.3vw; /* 1500/2409 */
+            left: 0;
+            width: 100vw;
+            height: 100vw;
+            perspective: 25vw;
+        }
+        .pics {
+            position: absolute;
+            width: 50vw;
+            height: 50vw;
+            left: 25vw;
+            top: 25vw;
+            background-size: cover;
+        }
+        .p-font{
+            transform: translateZ(-25vw);
+            -webkit-transform: translateZ(-25vw);
+        }
+        .p-back{
+            transform: translateZ(25vw) rotateY(180deg);
+            -webkit-transform: translateZ(25vw) rotateY(180deg);
+        }
+        .p-left{
+            transform: rotateY(90deg) translateZ(-25vw);
+            -webkit-transform: rotateY(90deg) translateZ(-25vw);
+        }
+        .p-right{
+            transform: rotateY(-90deg) translateZ(-25vw);
+            -webkit-transform: rotateY(-90deg) translateZ(-25vw);
+        }
+        .p-top{
+            transform: rotateX(-90deg) translateZ(-25vw);
+            -webkit-transform: rotateX(-90deg) translateZ(-25vw);
+        }
+        .p-bottom{
+            transform: rotateX(90deg) translateZ(-25vw);
+            -webkit-transform: rotateX(90deg) translateZ(-25vw);
+        }
+        #pocket {
+            top: 72.6vw; /* 1750/2409 */
+            left: 11.4vw; /* 275/2409 */
+            width: 76.8vw; /* 1850/2409 */
+            height: 76.8vw;
+        }
+        .btns {
+            top: 45.6vw; /* 1100/2409 */
+            width: 62.3vw; /* 1500/2409 */
+        }
+        .switch-btn {
+            width: 12vw;
+            height: 12vw; /* 288/2409 */
+        }
+    }
+    </style>
+    <script src="https://cdn.bootcss.com/jquery/3.5.0/jquery.min.js"></script>
+    <script src="https://cdn.bootcss.com/hammer.js/2.0.8/hammer.min.js"></script>
+    <script src="https://cdn.bootcdn.net/ajax/libs/animejs/3.2.0/anime.min.js"></script>
+    <script src="https://cdn.bootcdn.net/ajax/libs/lodash.js/4.17.15/lodash.min.js"></script>
+    <script type="text/javascript">
+        $(function(){
+            var body = document.body;
+            var hammertime = new Hammer(body);
+            var x = 0, y = 0;
+            hammertime.on('panmove', _.throttle(function(ev) {
+                var diffX = ev.deltaY / 100;
+                var diffY = -ev.deltaX / 100;
+                if (diffX > 10) diffX = 10;
+                if (diffX < -10) diffX = -10;
+                if (diffY > 10) diffY = 10;
+                if (diffY < -10) diffY = -10;
+                x += diffX;
+                y += diffY;
+                animation(x, y);
+            }, 100));
+            function animation(x, y) {
+                anime({
+                  targets: '.cube',
+                  rotateX: (Number(x) || 0).toFixed(2),
+                  rotateY: (Number(y) || 0).toFixed(2),
+                });
+            }
+            $('#mark .switch-btn').click(function(){
+                var type = $(this).attr('data-type');
+                $('#camera').attr('class', type);
+                $('#pocket').attr('class', type);
+            });
+            animation(1, 1); // init
+        });
+    </script>
+</head>
+<body>
+<div id="container">
+    <div id="camera" class="yellow">
+        <div class="cube">
+            <div class="p-back pics"></div>
+            <div class="p-left pics"></div>
+            <div class="p-font pics"></div>
+            <div class="p-right pics"></div>
+            <div class="p-bottom pics"></div>
+            <div class="p-top pics"></div>
+        </div>
+    </div>
+    <div id="mark">
+        <div class="btns">
+            <div class="switch-btn yellow" data-type="yellow"></div>
+            <div class="switch-btn black" data-type="black"></div>
+            <div class="switch-btn green" data-type="green"></div>
+            <div class="switch-btn pink" data-type="pink"></div>
+        </div>
+    </div>
+    <div id="pocket" class="yellow"></div>
+</div>
+</body>
+</html>
